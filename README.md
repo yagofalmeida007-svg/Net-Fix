@@ -53,7 +53,7 @@ Baixe o `NetFix.exe` na aba [Releases](../../releases) e execute. O Windows pode
 ### Opção 2: rodar pelo código-fonte
 
 ```bash
-git clone [https://github.com/SEU-USUARIO/netfix.git](https://github.com/yagofalmeida007-svg/Net-Fix.git)
+git clone https://github.com/yagofalmeida007-svg/Net-Fix.git
 cd netfix
 pip install -r requirements.txt
 python main.py
