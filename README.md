@@ -8,9 +8,8 @@
   Aplicativo de diagnóstico e reparo de rede para Windows, com interface gráfica.
 </p>
 
-<!-- Dica: adicione um print da tela em docs/screenshot.png e descomente a linha abaixo
+
 <p align="center"><img src="docs/screenshot.png" alt="Tela do NetFix" width="700"></p>
--->
 
 ---
 
