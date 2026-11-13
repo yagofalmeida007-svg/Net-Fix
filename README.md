@@ -1,153 +1,109 @@
-# 🛠️ NetFix
+<p align="center">
+  <img src="assets/images/logo.png" alt="Logo do NetFix" width="120">
+</p>
 
-### Diagnóstico e otimização de conexão de rede para Windows
+<h1 align="center">NetFix</h1>
 
-O **NetFix** é um aplicativo desktop desenvolvido em Python, com o objetivo de diagnosticar problemas de conexão com a internet, identificar instabilidades e oferecer ferramentas para auxiliar na manutenção da rede.
+<p align="center">
+  Aplicativo de diagnóstico e reparo de rede para Windows, com interface gráfica.
+</p>
 
-O projeto busca oferecer uma interface moderna, intuitiva e acessível, reunindo ferramentas de diagnóstico em um único lugar.
-
-> 🚧 **Status:** Em desenvolvimento.
+<!-- Dica: adicione um print da tela em docs/screenshot.png e descomente a linha abaixo
+<p align="center"><img src="docs/screenshot.png" alt="Tela do NetFix" width="700"></p>
+-->
 
 ---
 
-## 🎯 Objetivo do projeto
+## Sobre
 
-Desenvolver uma ferramenta capaz de ajudar usuários a identificar problemas de conexão, como:
+O NetFix testa a sua conexão, mostra onde está o problema e aplica os reparos mais comuns de rede com um clique, sem precisar abrir o Prompt de Comando.
 
-- Ping elevado.
-- Perda de pacotes.
-- Instabilidade na conexão.
-- Problemas de resolução DNS.
-- Variações no tempo de resposta (jitter).
+## Funcionalidades
 
-O NetFix também pretende oferecer ferramentas de reparo e monitoramento de rede.
+**Testes**
 
-## ✨ Funcionalidades
+- **Testar conexão:** envia 10 pings para `1.1.1.1` e mostra ping médio, mínimo e máximo, jitter e perda de pacotes, com um veredito simples ("Conexão boa" ou o que está errado).
+- **Testar DNS:** consulta o DNS do sistema e os servidores da Cloudflare (`1.1.1.1`) e do Google (`8.8.8.8`), com o tempo de resposta de cada um. Se o DNS do sistema falha mas os públicos respondem, o app aponta o problema e sugere a solução.
 
-### Implementadas
-- [x] Interface gráfica com tema escuro.
-- [x] Teste de conectividade utilizando ping.
-- [x] Cálculo de ping médio.
-- [x] Cálculo de perda de pacotes.
-- [x] Estimativa de jitter.
-- [x] Diagnóstico básico de DNS (em desenvolvimento).
+**Reparos**
 
-### Planejadas
-- [ ] Monitoramento de conexão em tempo real.
-- [ ] Histórico de diagnósticos.
-- [ ] Identificação automática de problemas.
-- [ ] Ferramentas de reparo de rede.
-- [ ] Limpeza de cache DNS.
-- [ ] Renovação de endereço IP.
-- [ ] Geração de relatórios.
-- [ ] Sistema de licenciamento.
-- [ ] Versão gratuita e versão Pro.
+- **Limpar cache DNS** (`ipconfig /flushdns`)
+- **Renovar IP** (`ipconfig /release` e `/renew`)
+- **Resetar pilha de rede** (`netsh winsock reset` e `netsh int ip reset`), com confirmação, pois exige reiniciar o computador
+- **Trocar o DNS do adaptador:** Cloudflare, Google ou automático (DHCP). O app detecta sozinho o Wi-Fi ou Ethernet conectado.
 
-## 💻 Tecnologias utilizadas
+**Outros detalhes**
 
-| Tecnologia | Utilização |
-|---|---|
-| Python | Linguagem principal |
-| CustomTkinter | Interface gráfica |
-| Psutil | Informações do sistema e rede |
-| Matplotlib | Gráficos e monitoramento |
-| Socket | Testes de conectividade |
-| Subprocess | Execução de comandos do Windows |
+- Os testes e reparos rodam em segundo plano, então a janela não trava.
+- Aviso e botão "Reabrir como administrador" quando o app é aberto sem permissão.
+- Tema escuro com [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter).
 
-## 📁 Estrutura do projeto
+## Requisitos
 
-```text
-NetFix/
-│
-├── main.py
-├── requirements.txt
-│
-├── interface/
-│   ├── __init__.py
-│   └── dashboard.py
-│
-├── services/
-│   ├── __init__.py
-│   ├── diagnostico.py
-│   ├── conexao.py
-│   └── reparo.py
-│
-├── utils/
-│   └── __init__.py
-│
-└── assets/
-    ├── images/
-    └── icons/
-```
+- **Windows 10 ou 11** (os reparos e a troca de DNS só funcionam no Windows)
+- **Python 3.10 ou mais novo**, caso vá rodar pelo código-fonte
+- **Permissão de administrador** para usar os botões de reparo
 
-*Estrutura prevista para a evolução do projeto. Alguns arquivos e módulos ainda serão desenvolvidos.*
+## Como usar
 
-## ⚙️ Instalação
+### Opção 1: executável (sem instalar Python)
 
-### 1. Clone o repositório
+Baixe o `NetFix.exe` na aba [Releases](../../releases) e execute. O Windows pode mostrar o aviso "O Windows protegeu seu computador", porque o programa não tem assinatura digital. Clique em **Mais informações** e depois em **Executar assim mesmo**.
+
+### Opção 2: rodar pelo código-fonte
 
 ```bash
-git clone (https://github.com/yagofalmeida007-svg/Net-Fix.git)
-```
-
-### 2. Entre na pasta do projeto
-
-```bash
-cd NetFix
-```
-
-### 3. Instale as dependências
-
-```bash
+git clone https://github.com/SEU-USUARIO/netfix.git
+cd netfix
 pip install -r requirements.txt
-```
-
-Caso ainda não tenha criado o arquivo `requirements.txt`, instale as bibliotecas utilizadas:
-
-```bash
-pip install customtkinter psutil matplotlib
-```
-
-### 4. Execute o aplicativo
-
-```bash
 python main.py
 ```
 
-## 📊 Como funciona o diagnóstico
+Para os reparos funcionarem, abra o terminal como administrador, ou use o botão **Reabrir como administrador** dentro do app.
 
-O NetFix realiza testes de conectividade utilizando pacotes ICMP para coletar informações como:
+## Gerar o executável
 
-- **Ping:** tempo de resposta entre o computador e o servidor.
-- **Perda de pacotes:** percentual de pacotes que não receberam resposta.
-- **Jitter estimado:** variação média entre tempos de respostas consecutivas.
+No Windows, dê dois cliques no `build.bat`, ou rode:
 
-Os testes de DNS ajudam a verificar a resolução de nomes de domínio e a resposta de servidores DNS públicos.
+```bash
+python -m pip install -r requirements.txt pyinstaller
+python -m PyInstaller --noconfirm --clean --onefile --windowed --name NetFix --uac-admin --noupx --icon assets\icons\app.ico --add-data "assets;assets" --collect-all customtkinter main.py
+```
 
-**Observação:** resultados de ping e perda de pacotes podem variar conforme o servidor testado e o tratamento de tráfego ICMP pela rede.
+O arquivo final fica em `dist\NetFix.exe`. Ele já pede permissão de administrador ao abrir.
 
-## 🔐 Segurança
+## Estrutura do projeto
 
-O projeto tem como objetivo executar diagnósticos de forma segura e transparente.
+```
+netfix/
+├── main.py                 # ponto de entrada
+├── build.bat               # gera o .exe
+├── gerar_assets.py         # gera logo e ícones (Pillow)
+├── requirements.txt
+├── assets/
+│   ├── icons/              # ícone do app e ícones dos botões
+│   └── images/             # logo
+├── interface/
+│   └── dashboard.py        # janela e botões
+├── services/
+│   ├── diagnostico.py      # ping, jitter e perda de pacotes
+│   ├── dns.py              # teste de DNS (consulta UDP direta)
+│   └── reparo.py           # comandos de reparo e troca de DNS
+└── utils/
+    └── recursos.py         # localiza os arquivos de assets (script e .exe)
+```
 
-As futuras ferramentas de reparo deverão informar ao usuário quais alterações serão realizadas, solicitar autorização quando necessário e evitar modificações desnecessárias nas configurações do sistema.
+## Como funciona
 
-## 🚀 Desenvolvimento
+- **Ping:** usa o comando `ping` do sistema e lê o tempo de cada resposta. O jitter é a média da diferença entre pings consecutivos.
+- **DNS:** os servidores públicos são consultados por UDP, na porta 53, sem depender do `nslookup`. Assim o teste funciona em qualquer idioma do Windows.
+- **Reparo:** chama `ipconfig` e `netsh`. A troca de DNS usa o PowerShell (`Get-NetAdapter` e `Set-DnsClientServerAddress`).
+- **Interface:** cada ação roda em uma thread, e o resultado volta para a tela por uma fila, o que evita travamentos.
 
-O NetFix está sendo desenvolvido gradualmente, com foco em:
+## Aviso
 
-1. Diagnóstico confiável.
-2. Interface moderna.
-3. Organização do código.
-4. Segurança das operações.
-5. Facilidade de utilização.
+Os botões de reparo alteram configurações de rede do computador. "Resetar pilha de rede" exige reiniciar o PC, e a troca de DNS pode ser desfeita com a opção **Automático (DHCP)**. Use por sua conta e risco.
 
-## 👨‍💻 Autor
+## Contribuindo
 
-**Yago Fernandes de Almeida**
-
-Estudante de Ciência da Computação e desenvolvedor em formação, interessado em programação, tecnologia e desenvolvimento de soluções de software.
-
-## 📄 Licença
-
-Projeto em desenvolvimento. A licença de distribuição e utilização será definida futuramente.
+Sugestões e correções são bem-vindas. Abra uma *issue* descrevendo o problema ou envie um *pull request*.
