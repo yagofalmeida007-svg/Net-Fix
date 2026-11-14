@@ -100,9 +100,6 @@ netfix/
 - **Interface:** cada ação roda em uma thread, e o resultado volta para a tela por uma fila, o que evita travamentos.
 
 ## Aviso
+projeto realizado com objetivo de aprendizagem, realizado com ajuda de inteligencia artificial. 
+Importante resaltar que os botões de reparo alteram configurações de rede do computador. "Resetar pilha de rede" exige reiniciar o PC, e a troca de DNS pode ser desfeita com a opção **Automático (DHCP)**. Use por sua conta e risco.
 
-Os botões de reparo alteram configurações de rede do computador. "Resetar pilha de rede" exige reiniciar o PC, e a troca de DNS pode ser desfeita com a opção **Automático (DHCP)**. Use por sua conta e risco.
-
-## Contribuindo
-
-Sugestões e correções são bem-vindas. Abra uma *issue* descrevendo o problema ou envie um *pull request*.
